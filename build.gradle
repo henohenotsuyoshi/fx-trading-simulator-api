@@ -33,35 +33,52 @@ dependencies {
 
 sourceSets {
 	main {
-		java.srcDirs += "src\\main\\generated-java"
+		java.srcDirs += "src/main/generated-java"
 	}
 }
 
 task mithraGenerateSources  {
-	ant.taskdef(name: 'mithraGen',
-			classname:'com.gs.fw.common.mithra.generator.MithraGenerator',
-			loaderRef: 'mithraGenerator',
-			classpath: configurations.mithraGenConfig.asPath,
-	)
+	doLast {
+		// Create directories if they don't exist
+		file('src/main/generated-java').mkdirs()
+		file('src/main/resources/generated-db/sql').mkdirs()
+		
+		// Set system properties to handle threading issues in containers
+		System.setProperty('java.awt.headless', 'true')
+		System.setProperty('mithra.generator.singleThread', 'true')
+		
+		try {
+			ant.taskdef(name: 'mithraGen',
+					classname:'com.gs.fw.common.mithra.generator.MithraGenerator',
+					loaderRef: 'mithraGenerator',
+					classpath: configurations.mithraGenConfig.asPath,
+			)
 
-	ant.mithraGen(
-			xml:'src/main/resources/reladomo/ReladomoClassList.xml',
-			generatedDir:'src\\main\\generated-java',
-			nonGeneratedDir:'src/main/java',
-			generateConcreteClasses:'true'
-	)
+			ant.mithraGen(
+					xml:'src/main/resources/reladomo/ReladomoClassList.xml',
+					generatedDir:'src/main/generated-java',
+					nonGeneratedDir:'src/main/java',
+					generateConcreteClasses:'true'
+			)
 
-	ant.taskdef(name: 'genDdl',
-			classname:'com.gs.fw.common.mithra.generator.dbgenerator.MithraDbDefinitionGenerator',
-			loaderRef: 'mithraGenerator',
-			classpath: 'plugin_classpath',
-	)
+			ant.taskdef(name: 'genDdl',
+					classname:'com.gs.fw.common.mithra.generator.dbgenerator.MithraDbDefinitionGenerator',  
+					loaderRef: 'mithraGenerator',
+					classpath: configurations.mithraGenConfig.asPath,
+			)
 
-	ant.genDdl(
-			xml:'src/main/resources/reladomo/ReladomoClassList.xml',
-			generatedDir:'src\\main\\resources\\generated-db\\sql',
-			databaseType: 'postgres'
-	)
+			ant.genDdl(
+					xml:'src/main/resources/reladomo/ReladomoClassList.xml',
+					generatedDir:'src/main/resources/generated-db/sql',
+					databaseType: 'postgres'
+			)
+		} catch (Exception e) {
+			logger.warn("Mithra generation failed: ${e.message}")
+			// Create empty marker files so compilation doesn't fail
+			new File('src/main/generated-java/.gitkeep').createNewFile()
+			throw e
+		}
+	}
 }
 
 task mithraClean {

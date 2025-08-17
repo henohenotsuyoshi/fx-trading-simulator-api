@@ -29,7 +29,11 @@ public class RateInitializer {
     public static void run() {
         InputStream resourceAsStream = FxTradeApplication.class.getClassLoader().getResourceAsStream("data/rates.csv");
         try {
-            RateFinder.findMany(RateFinder.all()).deleteAllInBatches(1000);
+            long existingCount = RateFinder.findMany(RateFinder.all()).count();
+            if (existingCount > 0) {
+                System.out.println("Rates already initialized (" + existingCount + " records). Skipping initialization.");
+                return;
+            }
 
             // CSVファイルの読み込み
             InputStreamReader isr = new InputStreamReader(resourceAsStream, "UTF-8");
@@ -80,7 +84,12 @@ public class RateInitializer {
                     }
                 }
             }
-            ratesList.insertAll();
+            int batchSize = 500;
+            for (int i = 0; i < ratesList.size(); i += batchSize) {
+                int end = Math.min(i + batchSize, ratesList.size());
+                RateList batch = new RateList(ratesList.subList(i, end));
+                batch.insertAll();
+            }
         } catch (IOException e) {
 
         }

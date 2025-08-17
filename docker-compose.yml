@@ -1,0 +1,40 @@
+services:
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=postgresql
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/fxtrade
+      - SPRING_DATASOURCE_USERNAME=fxuser
+      - SPRING_DATASOURCE_PASSWORD=fxpassword
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - fx-network
+
+  db:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_DB=fxtrade
+      - POSTGRES_USER=fxuser
+      - POSTGRES_PASSWORD=fxpassword
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U fxuser -d fxtrade"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - fx-network
+
+volumes:
+  postgres_data:
+
+networks:
+  fx-network:
+    driver: bridge
