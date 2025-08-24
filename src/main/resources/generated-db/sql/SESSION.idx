@@ -1,2 +1,3 @@
 alter table SESSION add constraint SESSION_PK primary key (id);
 
+CREATE INDEX CONCURRENTLY idx_session_user_id ON session (user_id);
