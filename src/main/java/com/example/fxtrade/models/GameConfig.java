@@ -11,14 +11,19 @@ import java.util.Set;
 public enum GameConfig {
     TEST0(LocalDate.of(2016, 1, 4), LocalDate.of(2016, 1, 11), 0, GameType.ANY),
     TEST1(LocalDate.of(2017, 1, 4), LocalDate.of(2017, 1, 11), 0.001, GameType.ANY),
-    Jan_Mar_2016_without_commission(LocalDate.of(2016, 1, 4), LocalDate.of(2016, 3, 30), 0, GameType.ANY),
-    Jan_Mar_2016_with_commission(LocalDate.of(2016, 1, 4), LocalDate.of(2016, 3, 30), 0.001, GameType.ANY),
-    Jun_Aug_2016_without_commission(LocalDate.of(2016, 6, 1), LocalDate.of(2016, 8, 31), 0, GameType.ANY),
-    Jun_Aug_2016_with_commission(LocalDate.of(2016, 6, 1), LocalDate.of(2016, 8, 31), 0.001, GameType.ANY),
-    Feb_Apr_2017_without_commission(LocalDate.of(2017, 2, 1), LocalDate.of(2017, 4, 28), 0, GameType.ANY),
-    Feb_Apr_2017_wit_commission(LocalDate.of(2017, 2, 1), LocalDate.of(2017, 4, 28), 0.001, GameType.ANY),
-    Jun_Aug_2017_without_commission(LocalDate.of(2017, 6, 1), LocalDate.of(2017, 8, 31), 0, GameType.PROD),
-    Jun_Aug_2017_with_commission(LocalDate.of(2017, 6, 1), LocalDate.of(2017, 8, 31), 0.001, GameType.PROD);
+    TEST2(LocalDate.of(2018, 1, 4), LocalDate.of(2018, 1, 11), 0.001, GameType.ANY),
+    TEST3(LocalDate.of(2019, 1, 4), LocalDate.of(2019, 1, 11), 0.001, GameType.ANY),
+    TEST4(LocalDate.of(2020, 1, 4), LocalDate.of(2020, 1, 11), 0.001, GameType.ANY),
+    Jan_Mar_2016(LocalDate.of(2016, 1, 4), LocalDate.of(2016, 3, 30), 0, GameType.ANY),
+    Jun_Aug_2016(LocalDate.of(2016, 6, 1), LocalDate.of(2016, 8, 31), 0, GameType.ANY),
+    Feb_Apr_2017(LocalDate.of(2017, 2, 1), LocalDate.of(2017, 4, 28), 0, GameType.ANY),
+    Jun_Aug_2017(LocalDate.of(2017, 6, 1), LocalDate.of(2017, 8, 31), 0, GameType.ANY),
+    Feb_Apr_2018(LocalDate.of(2018, 2, 1), LocalDate.of(2018, 4, 28), 0, GameType.ANY),
+    Jun_Aug_2018(LocalDate.of(2018, 6, 1), LocalDate.of(2018, 8, 31), 0, GameType.ANY),
+    Feb_Apr_2019(LocalDate.of(2019, 2, 1), LocalDate.of(2019, 4, 28), 0, GameType.ANY),
+    Jun_Aug_2019(LocalDate.of(2019, 6, 1), LocalDate.of(2019, 8, 31), 0, GameType.ANY),
+    Feb_Apr_2020(LocalDate.of(2020, 2, 1), LocalDate.of(2020, 4, 28), 0, GameType.ANY),
+    Jun_Aug_2020(LocalDate.of(2020, 6, 1), LocalDate.of(2020, 8, 31), 0, GameType.ANY),
     private LocalDate dateFrom;
     private LocalDate dateTo;
     private double commission;
