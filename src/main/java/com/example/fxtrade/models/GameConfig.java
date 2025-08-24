@@ -23,7 +23,7 @@ public enum GameConfig {
     Feb_Apr_2019(LocalDate.of(2019, 2, 1), LocalDate.of(2019, 4, 28), 0, GameType.ANY),
     Jun_Aug_2019(LocalDate.of(2019, 6, 1), LocalDate.of(2019, 8, 31), 0, GameType.ANY),
     Feb_Apr_2020(LocalDate.of(2020, 2, 1), LocalDate.of(2020, 4, 28), 0, GameType.ANY),
-    Jun_Aug_2020(LocalDate.of(2020, 6, 1), LocalDate.of(2020, 8, 31), 0, GameType.ANY),
+    Jun_Aug_2020(LocalDate.of(2020, 6, 1), LocalDate.of(2020, 8, 31), 0, GameType.ANY);
     private LocalDate dateFrom;
     private LocalDate dateTo;
     private double commission;
